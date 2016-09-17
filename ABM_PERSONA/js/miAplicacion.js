@@ -150,13 +150,38 @@ $scope.IraGrilla = function(){
 }
 
 });
-miApp.controller("controlPersonaAlta",function($scope,$state,FileUploader){
+miApp.controller("controlPersonaAlta",function($scope,$state,FileUploader,$http){
 	
+$scope.Guardar= function(){
+
+	 $http.post('PHP/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
+			  .then(function(respuesta) {     	
+			 //aca se ejetuca si retorno sin errores      	
+					 console.log(respuesta.data);
+				
+
+					},function errorCallback(response) {     		
+			//aca se ejecuta cuando hay errores
+					console.log( response);     			
+	  });
+}
+
 $scope.SubirdorArchivos = new FileUploader({url:'./servidor/archivos.php'});
 
 	
-$scope.SubirdorArchivos.onSuccessItem = function(fileItem, response, status, headers) {
-            console.info('onSuccessItem', fileItem, response, status, headers);
+$scope.SubirdorArchivos.onSuccessItem = function(item, response, status, headers) {
+            console.info('onSuccessItem', item, response, status, headers);
+            $http.post('PHP/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
+			  .then(function(respuesta) {     	
+			 //aca se ejetuca si retorno sin errores      	
+					 console.log(respuesta.data);
+				
+
+					},function errorCallback(response) {     		
+			//aca se ejecuta cuando hay errores
+					console.log( response);     			
+	  });
+			console.info("Ya guardé el archivo.", item, response, status, headers);
         };
 
 
