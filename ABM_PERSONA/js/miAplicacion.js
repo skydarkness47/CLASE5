@@ -152,23 +152,14 @@ $scope.IraGrilla = function(){
 });
 miApp.controller("controlPersonaAlta",function($scope,$state,FileUploader,$http){
 	
-$scope.Guardar= function(){
+//inicio las variables
+$scope.SubirdorArchivos = new FileUploader({url:'./servidor/archivos.php'});  $scope.persona={};
+  $scope.persona.nombre= "natalia" ;
+  $scope.persona.dni= "12312312" ;
+  $scope.persona.apellido= "natalia" ;
+  $scope.persona.foto="pordefecto.png";
 
-	 $http.post('PHP/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
-			  .then(function(respuesta) {     	
-			 //aca se ejetuca si retorno sin errores      	
-					 console.log(respuesta.data);
-				
 
-					},function errorCallback(response) {     		
-			//aca se ejecuta cuando hay errores
-					console.log( response);     			
-	  });
-}
-
-$scope.SubirdorArchivos = new FileUploader({url:'./servidor/archivos.php'});
-
-	
 $scope.SubirdorArchivos.onSuccessItem = function(item, response, status, headers) {
             console.info('onSuccessItem', item, response, status, headers);
             $http.post('PHP/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
@@ -187,6 +178,25 @@ $scope.SubirdorArchivos.onSuccessItem = function(item, response, status, headers
 
 
 
+  $scope.Guardar=function(){
+	console.log($scope.SubirdorArchivos.queue);
+	if($scope.SubirdorArchivos.queue[0]!=undefined)
+	{
+		var nombreFoto = $scope.SubirdorArchivos.queue[0]._file.name;
+		$scope.persona.foto=nombreFoto;
+	}
+	$scope.SubirdorArchivos.uploadAll();
+  	console.log("persona a guardar:");
+    console.log($scope.persona);
+	
+
+  
+
+  }
+	
+
+
+
 $scope.IraAlta = function(){
 $state.go("persona.Alta");
 }
@@ -197,9 +207,23 @@ $scope.IraGrilla = function(){
 
 
 });
-miApp.controller("controlPersonaGrilla",function($scope,$state){
 
 
+
+
+miApp.controller("controlPersonaGrilla",function($scope,$state,$http){
+
+	
+ 	$http.get('PHP/nexo.php', { params: {accion :"traer"}})
+ 	.then(function(respuesta) {     	
+      	 $scope.ListadoPersonas = respuesta.data.listado;
+      	 
+
+    },function errorCallback(response) {
+     		 $scope.ListadoPersonas= [];
+     		console.log( response);
+
+     	});
 
 $scope.IraAlta = function(){
 $state.go("persona.Alta");
