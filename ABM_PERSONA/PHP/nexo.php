@@ -26,7 +26,6 @@ include "clases/Personas.php";
 
 	switch ($respuesta->datos->accion) {
 		case 'insertar':
-var_dump($respuesta->datos->persona);
 		if($respuesta->datos->persona->foto!="pordefecto.png")
 			{
 				$rutaVieja="../fotos/".$respuesta->datos->persona->foto;
@@ -38,6 +37,16 @@ var_dump($respuesta->datos->persona);
 			Persona::InsertarPersona($respuesta->datos->persona);
 	
 			break;
+
+			 case 'borrar':
+			 echo "hola";
+			if($respuesta->datos->persona->foto!="pordefecto.png")
+			{
+				unlink("../fotos/".$respuesta->datos->persona->foto);
+			}
+			Persona::BorrarPersona($respuesta->datos->persona->id);
+			break;
+
 	}
 }
  ?>

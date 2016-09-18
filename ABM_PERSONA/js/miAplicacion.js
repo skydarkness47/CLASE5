@@ -233,6 +233,37 @@ $scope.IraGrilla = function(){
 }
 
 
+ 	
+ 	$scope.Borrar=function(persona){
+		console.log("borrar"+persona);
+
+
+
+$http.post("PHP/nexo.php",{datos:{accion :"borrar",persona:persona}},{headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+ .then(function(respuesta) {       
+         //aca se ejetuca si retorno sin errores        
+         console.log(respuesta.data);
+		 $http.get('PHP/nexo.php', { params: {accion :"traer"}})
+		.then(function(respuesta) {     	
+			console.log(persona);
+			 $scope.ListadoPersonas = respuesta.data.listado;
+			 console.log(respuesta.data);
+
+		},function errorCallback(response) {
+				 $scope.ListadoPersonas= [];
+				console.log( response);
+		 });
+
+    },function errorCallback(response) {        
+        //aca se ejecuta cuando hay errores
+        console.log( response);           
+    });
+
+
+ 	}
+
+
+
 });
 miApp.controller("controlLogin",function($scope,$state){
 
@@ -241,6 +272,8 @@ miApp.controller("controlLogin",function($scope,$state){
 $scope.IraRegistro = function(){
 $state.go("login.registro");
 }
+
+
 
 
 

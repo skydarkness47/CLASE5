@@ -86,23 +86,7 @@ app.controller('controlGrilla', function($scope, $http, $state) {
     },function errorCallback(response) {
      		 $scope.ListadoPersonas= [];
      		console.log( response);
-     			/*
-
-					https://docs.angularjs.org/api/ng/service/$http
-
-     			the response object has these properties:
-
-				data – {string|Object} – The response body transformed with the transform functions.
-				status – {number} – HTTP status code of the response.
-				headers – {function([headerName])} – Header getter function.
-				config – {Object} – The configuration object that was used to generate the request.
-				statusText – {string} – HTTP status text of the response.
-						A response status code between 200 and 299 is considered a success
-						 status and will result in the success callback being called. 
-						 Note that if the response is a redirect, XMLHttpRequest will 
-						 transparently follow it, meaning that 
-						 the error callback will not be called for such responses.
- 	 */
+     			
  	 });
 	/*$scope.Modificar=function(persona)
 	{
@@ -120,7 +104,7 @@ $http.post("PHP/nexo.php",{datos:{accion :"borrar",persona:persona}},{headers: {
          console.log(respuesta.data);
 		 $http.get('PHP/nexo.php', { params: {accion :"traer"}})
 		.then(function(respuesta) {     	
-
+			console.log(persona);
 			 $scope.ListadoPersonas = respuesta.data.listado;
 			 console.log(respuesta.data);
 
