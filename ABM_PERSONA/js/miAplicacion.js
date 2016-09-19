@@ -118,7 +118,10 @@ miApp.config(function($stateProvider,$urlRouterProvider){
 					controller:"controlSalaJuegos"
 						}
 				}
-			})
+			}).state('modificacion',
+	{url: '/modificacion/{id}?:nombre:apellido:dni:foto',
+	templateUrl: 'alta.html',
+	controller: 'controlModificacion'})
 
 
 
@@ -262,7 +265,35 @@ $http.post("PHP/nexo.php",{datos:{accion :"borrar",persona:persona}},{headers: {
 
  	}
 
+$scope.Modificar=function(persona){
+ 		$http.post('PHP/nexo.php', { datos: {accion :"modificar",persona:personaA}})
+		  .then(function(respuesta) {     
+		  
+				 //aca se ejetuca si retorno sin errores      	
+			 console.log(respuesta.data);
+		 persona.nombre = personaA.nombre;
+			 persona.apellido = personaA.apellido;
+			 persona.dni = personaA.dni;
+			$state.go("persona.Alta");
+		
 
+		},function errorCallback(response) {     		
+				//aca se ejecuta cuando hay errores
+				console.log( response);     			
+		  });
+ 		console.log("Modificar"+persona.id);
+		$http.post("PHP/nexo.php", {datos:{accion:"buscar", id:persona.id}})
+		.then(function(respuesta)
+		{
+			var persona=respuesta.data;
+			$state.go("persona.Alta");//location.href="formAlta.html";
+			$scope.DatoTest=persona.nombre;
+			console.log(persona);
+		} ,function errorCallback(response) {        
+			//aca se ejecuta cuando hay errores
+			console.log(response);           
+		});
+	}
 
 });
 miApp.controller("controlLogin",function($scope,$state){
@@ -310,4 +341,5 @@ $scope.Comenzar =function(){
 
 
 });
+
 

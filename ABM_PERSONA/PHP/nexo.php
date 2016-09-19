@@ -47,6 +47,20 @@ include "clases/Personas.php";
 			Persona::BorrarPersona($respuesta->datos->persona->id);
 			break;
 
+			 case 'modificar':
+if($respuesta->datos->persona->foto!="pordefecto.png")
+			{
+				$rutaVieja="../fotos/".$respuesta->datos->persona->foto;
+				$rutaNueva=$respuesta->datos->persona->dni.".".PATHINFO($rutaVieja, PATHINFO_EXTENSION);
+				copy($rutaVieja, "../fotos/".$rutaNueva);
+				unlink($rutaVieja);
+				$respuesta->datos->persona->foto=$rutaNueva;
+			}
+			Persona::ModificarPersona($respuesta->datos->persona);
+			break;
+
+			 break;
+
 	}
 }
  ?>
